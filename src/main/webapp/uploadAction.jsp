@@ -12,7 +12,8 @@
 </head>
 <body>
 	<%
-		String directory = application.getRealPath("/upload/");
+		//서버 외부에 업로드 위치 설정 - 시큐어 코딩
+		String directory = "C:/ldw_data/upload";
 		int maxSize = 1024 * 1024 * 100; //100MB 까지만 사용가능
 		String encoding = "UTF-8";
 		
@@ -23,9 +24,23 @@
 		String fileName = multipartRequest.getOriginalFileName("file");
 		String fileRealName = multipartRequest.getFilesystemName("file");
 		
-		new FileDAO().upload(fileName, fileRealName);
-		out.write("파일명: " + fileName + "<br>");
-		out.write("실제파일명: " + fileRealName + "<br>");
+		// 특정 파일만 불러 올 수 있고 그 외에 파일은 불러와도 바로 삭제
+		if(!fileName.endsWith(".gif") && !fileName.endsWith(".png") &&
+				!fileName.endsWith(".jpg") && !fileName.endsWith(".txt")){
+			
+			File file = new File(directory + "/" + fileRealName);
+			file.delete();
+			out.write("업로드할 수 없는 확장자입니다.");
+			
+		}else{
+			new FileDAO().upload(fileName, fileRealName);
+			
+			new FileDAO().upload(fileName, fileRealName);
+			out.write("파일명: " + fileName + "<br>");
+			out.write("실제파일명: " + fileRealName + "<br>");
+			
+		}
+		
 	%>
 </body>
 </html>
