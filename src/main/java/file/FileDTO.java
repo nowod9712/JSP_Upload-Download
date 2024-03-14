@@ -2,18 +2,35 @@ package file;
 
 public class FileDTO {
 	
-	String fielName;
+	String fileName;
 	String fileRealName;
-	public String getFielName() {
-		return fielName;
+	int downloadCount; 
+	
+	
+	public FileDTO(String fileName, String fileRealName, int downloadCount) {
+		super();
+		this.fileName = fileName;
+		this.fileRealName = fileRealName;
+		this.downloadCount = downloadCount;
 	}
-	public void setFielName(String fielName) {
-		this.fielName = fielName;
+	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	public String getFileRealName() {
 		return fileRealName;
 	}
 	public void setFileRealName(String fileRealName) {
 		this.fileRealName = fileRealName;
+	}
+	
+	public int getDownloadCount() {
+		return downloadCount;
+	}
+	public void setDownloadCount(int downloadCount) {
+		this.downloadCount = downloadCount;
 	}
 }

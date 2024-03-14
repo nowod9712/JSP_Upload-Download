@@ -19,6 +19,7 @@ public class downloadAction extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String fileName = request.getParameter("file");
 		
+		//서버 외부에 다운로드 위치 설정 - 시큐어 코딩
 		String directory = "C:/ldw_data/upload";
 		File file = new File(directory + "/" + fileName);
 		
@@ -46,6 +47,8 @@ public class downloadAction extends HttpServlet {
 		while((data = (fileInputStream.read(b, 0, b.length))) != -1) {
 			servletOutputStream.write(b, 0, data);
 		}
+		
+		new FileDAO().hit(fileName); // 다운로드를 1씩 증가
 
 		servletOutputStream.flush();
 		servletOutputStream.close();

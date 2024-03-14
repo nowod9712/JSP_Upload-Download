@@ -1,4 +1,8 @@
+<%@ page import ="java.net.URLEncoder" %>
+<%@ page import ="file.FileDTO" %>
+<%@ page import ="file.FileDAO" %>
 <%@ page import="java.io.File" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,13 +13,12 @@
 </head>
 <body>
 <%
-	//서버 외부에 업로드 위치 설정 - 시큐어 코딩
-	String directory = "C:/ldw_data/upload";
-	String files[] = new File(directory).list();
-	
-	for(String file : files){
+	ArrayList<FileDTO> fileList = new FileDAO().getList();	
+
+	for(FileDTO file : fileList){
 		out.write("<a href=\"" + request.getContextPath() + "/downloadAction?file=" +
-			java.net.URLEncoder.encode(file, "UTF-8") + "\">" + file + "</a><br>");
+			URLEncoder.encode(file.getFileRealName(), "UTF-8") + "\">" +
+				file.getFileName() + "(다운로드 횟수: " + file.getDownloadCount() + ")</a><br>");
 	}
 	
 %>
